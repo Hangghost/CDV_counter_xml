@@ -28,13 +28,13 @@ for filename in xml_filename_list:
     
 Tools.print_type(Leftstatement_dic)
 
+print("--------------------------------")
 
-    
-    
-    # num = Leftstatement.count(<Leftstatement>SINUS TACHYCARDIA</Leftstatement>)
-    # print(num)
-
-# 判斷是否有我要的關鍵字並計算
+for id, leftstatement_list in Leftstatement_dic.items():
+    for element in leftstatement_list:
+        count = element.count("VENTRICULAR PREMATURE COMPLEXES")
+        print(f"The ID is {id}. The count is {count}")
+        
 
 
 # 輸出成檔案
