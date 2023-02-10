@@ -1,0 +1,3 @@
+ID,Date,Severity,Sinus tachycardia,Ventriclar premature complex,Atrial premature complex,J premature complex,Ventricular fibrillation,Atrial fibrillation,Left bundle branch block,Right bundle branch block,1st atrioventricular block,2nd trioventricular block type 1,2nd trioventricular block type 2,Left ventricular hypertrophy,Right ventricular hypertrophy,ST elevation,ST depression,Long QT interval,Sinus bradycardia,Sinus arrhythmia
+106939340168101,2013-01-03,- ABNORMAL ECG -,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0
+272787310524101,2013-01-03,- ABNORMAL ECG -,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
