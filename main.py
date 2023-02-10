@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import Tools
 
 
-# 讀取所有檔案
 
 Chimei_ECG_file = os.listdir(".\\test data")  # get list of dir path
 
@@ -32,7 +31,7 @@ for filename in xml_filename_list:
     Leftstatement_dic[Study_id] = [Leftstatement_list, Severity, date]    # Creat a dictionary
 
 
-CDV_name = ["Sinus tachycardia", "Ventriclar premature complex", "Atrial premature complex", "J premature complex", "Ventricular fibrillation", "Atrial fibrillation", "Left bundle branch block", "Right bundle branch block", "1st atrioventricular block", "2nd trioventricular block type 1", "2nd trioventricular block type 2", "Left ventricular hypertrophy", "Right ventricular hypertrophy", "ST elevation", "ST depression", "Long QT interval", "Sinus bradycardia", "Sinus arrhythmia"]
+CDV_name = ["Sinus tachycardia", "Ventriclar premature complex", "Atrial premature complex", "J premature complex", "Ventricular fibrillation", "Atrial fibrillation", "Left bundle branch block", "Right bundle branch block", "1st atrioventricular block", "2nd atrioventricular block type 1", "2nd atrioventricular block type 2", "Left ventricular hypertrophy", "Right ventricular hypertrophy", "ST elevation", "ST depression", "Long QT interval", "Sinus bradycardia", "Sinus arrhythmia"]
 CDV_counting_dic = {}
 
 
@@ -44,14 +43,14 @@ for ids, report in Leftstatement_dic.items():   # report: [Leftstatement list, s
     ST_count = Tools.CDV_counter("SINUS TACHYCARDIA", leftstatement_list)
     VPC_count = Tools.CDV_counter("VENTRICULAR PREMATURE", leftstatement_list, other_name="VENT PREMATURE COMPLEXES")
     APC_count = Tools.CDV_counter("ATRIAL PREMATURE COMPLEX", leftstatement_list, other_name="MULTIPLE ATRIAL PREMATURE COMPLEXES")
-    JPC_count = Tools.CDV_counter("-", leftstatement_list)
-    VF_count = Tools.CDV_counter("-", leftstatement_list)
+    JPC_count = Tools.CDV_counter("-----", leftstatement_list)
+    VF_count = Tools.CDV_counter("------", leftstatement_list)
     AF_count = Tools.CDV_counter("ATRIAL FIBRILLATION", leftstatement_list, other_name="ATRIAL FLUTTER/FIBRILLATION")
     LBBB_count = Tools.CDV_counter("LEFT BUNDLE BRANCH BLOCK", leftstatement_list)
     RBBB_count = Tools.CDV_counter("RIGHT BUNDLE BRANCH BLOCK", leftstatement_list, other_name="RBBB AND LPFB")
     firstAVB_count = Tools.CDV_counter("FIRST DEGREE AV BLOCK", leftstatement_list)
-    secondtype1AVB_count = Tools.CDV_counter("-", leftstatement_list)
-    secondtype2AVB_count = Tools.CDV_counter("-", leftstatement_list)
+    secondtype1AVB_count = Tools.CDV_counter("------", leftstatement_list)
+    secondtype2AVB_count = Tools.CDV_counter("------", leftstatement_list)
     LVH_count = Tools.CDV_counter("LEFT VENTRICULAR HYPERTROPHY", leftstatement_list, other_name="LVH WITH")
     RVH_count = Tools.CDV_counter("RIGHT VENTRICULAR HYPERTROPHY", leftstatement_list)
     STelevation_count = Tools.CDV_counter("ST ELEVATION", leftstatement_list, other_name="ST ELEV") 
@@ -68,7 +67,9 @@ for ids, report in Leftstatement_dic.items():   # report: [Leftstatement list, s
    
     CDV_counting_dic[ids] = [date, Severity, CDV_counting_nested_dic]
 
-new_file_name = "CDV counting data.csv"
+print("Counting finished")
+
+new_file_name = "CDV counting data2.csv"
 with open(new_file_name, "w") as file_object:
     file_object.write("ID" +","+ "Date" +","+ "Severity")    # Write the title
     for name in CDV_name:
@@ -81,3 +82,5 @@ with open(new_file_name, "w") as file_object:
         for CDV_values in nested_dic.values():
             file_object.write(","+ str(CDV_values))
         file_object.write("\n")
+
+print("Created a data file")
