@@ -5,14 +5,19 @@ import Tools
 
 
 
-Chimei_ECG_file = os.listdir(".\\test data")  # get list of dir path
+# Chimei_ECG_file = os.listdir(".\\test data")  # get list of dir path
+
 
 xml_filename_list = []
-for xml_filename in glob.glob("./test data/**/*.xml", recursive=True):
+for xml_filename in glob.glob("./test data/0103/**/*.xml", recursive=True):
     xml_filename_list.append(xml_filename)    # Get all xml files path in list
 
 
 Leftstatement_dic = {}
+error_filename = []
+Study_id_error = 0
+Severity_error = 0
+date_error = 0
 
 for filename in xml_filename_list:
     with open(filename, "r", encoding="UTF-16") as file:   # iterate all files
@@ -23,10 +28,25 @@ for filename in xml_filename_list:
     Leftstatement_list = []
     for element in Leftstatement:
         Leftstatement_list.append(str(element))
-        
-    Study_id = str(bs_data.StudyUID.string)    # Get ID
-    Severity = str(bs_data.Severity.string)    # Get severity
-    date = str(bs_data.StudyDate.string)    # Get date
+
+    try:    
+        Study_id = str(bs_data.StudyUID.string)    # Get ID
+    except (AttributeError, KeyError):
+        Study_id = ""
+        Study_id_error += 1
+        error_filename.append(filename)
+    try:
+        Severity = str(bs_data.Severity.string)    # Get severity
+    except (AttributeError, KeyError):
+        Severity = ""        
+        Severity_error += 1
+        error_filename.append(filename)
+    try:
+        date = str(bs_data.StudyDate.string)    # Get date
+    except (AttributeError, KeyError):
+        date = ""        
+        date_error += 1
+        error_filename.append(filename)
 
     Leftstatement_dic[Study_id] = [Leftstatement_list, Severity, date]    # Creat a dictionary
 
@@ -68,8 +88,11 @@ for ids, report in Leftstatement_dic.items():   # report: [Leftstatement list, s
     CDV_counting_dic[ids] = [date, Severity, CDV_counting_nested_dic]
 
 print("Counting finished")
+print(f"Error number\n Study ID: {Study_id_error} \n Severity: {Severity_error}\n Data error: {date_error}")
+for name_report in error_filename:
+    print(f"The error file is: {name_report}")
 
-new_file_name = "CDV counting data2.csv"
+new_file_name = "CDV counting data_20190103" + ".csv"
 with open(new_file_name, "w") as file_object:
     file_object.write("ID" +","+ "Date" +","+ "Severity")    # Write the title
     for name in CDV_name:
